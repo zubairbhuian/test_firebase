@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
-
+void main() => runApp(const MyApp());
+final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -12,10 +12,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.indigo),
       home: SafeArea(
           child: Scaffold(
-        appBar: AppBar(title: const Text("User Information")),
-        body: UserForm(),
+        appBar: AppBar(
+          title: const Text("User Information"),
+          centerTitle: true,
+        ),
+        body: const UserForm(),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                  // Process data.
+                }
+          },
           child: const Icon(Icons.send),
         ),
       )),
@@ -36,6 +43,8 @@ class _UserFormState extends State<UserForm> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+
+  
 
   @override
   void dispose() {
@@ -63,36 +72,46 @@ class _UserFormState extends State<UserForm> {
       padding: const EdgeInsets.all(16.0),
       child: Form(
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        child: Column(
+        child: ListView(
           children: [
-            TextField(
+            TextFormField(
               keyboardType: TextInputType.name,
               decoration: const InputDecoration(
                   labelText: 'Enter Your Full Name',
                   // hintText: 'Enter Your Full Name',
                   border: OutlineInputBorder()),
               controller: _nameController,
+                          validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
             ),
             const SizedBox(
               height: 15,
             ),
             // Email
-            TextField(
-              keyboardType: TextInputType.emailAddress,
+            TextFormField(
               decoration: const InputDecoration(
                   labelText: 'Enter Your Email',
                   // hintText: 'Enter Your Email',
                   border: OutlineInputBorder()),
               controller: _emailController,
+                          validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
             ),
             const SizedBox(
               height: 15,
             ),
             // Password
-            TextField(
+            TextFormField(
               keyboardType: TextInputType.visiblePassword,
               obscureText: _hidePassword,
-              
               decoration: InputDecoration(
                   labelText: 'Enter Your Password',
                   // hintText: 'Enter Your Password',
@@ -106,32 +125,50 @@ class _UserFormState extends State<UserForm> {
                     }),
                   )),
               controller: _passwordController,
-              
+              validator: (pass) {
+                if (pass != null && pass.length < 7) {
+                  return "Your minimum password should be 7";
+                } else {
+                  return null;
+                }
+              },
             ),
             const SizedBox(
               height: 15,
             ),
             // Age
-            TextField(
+            TextFormField(
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                   labelText: 'Enter Your Age',
                   // hintText: 'Enter Your Age',
                   border: OutlineInputBorder()),
               controller: _ageController,
+                          validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
             ),
             const SizedBox(
               height: 15,
             ),
             // Phone Number
-            TextField(
+            TextFormField(
               keyboardType: TextInputType.phone,
               decoration: const InputDecoration(
                   labelText: 'Enter Your Phone Number',
                   // hintText: 'Enter Your Phone Number',
                   border: OutlineInputBorder()),
               controller: _phoneController,
-              
+              validator: (value) {
+                if (value != null && value.length < 11) {
+                  return "Enter your valid phone number";
+                } else {
+                  return null;
+                }
+              },
             ),
             //
           ],
