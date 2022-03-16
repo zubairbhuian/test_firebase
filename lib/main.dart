@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
 final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -19,9 +20,9 @@ class MyApp extends StatelessWidget {
         body: const UserForm(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                  // Process data.
-                }
+            if (formKey.currentState!.validate()) {
+              // Process data.
+            }
           },
           child: const Icon(Icons.send),
         ),
@@ -43,8 +44,6 @@ class _UserFormState extends State<UserForm> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-
-  
 
   @override
   void dispose() {
@@ -71,6 +70,7 @@ class _UserFormState extends State<UserForm> {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Form(
+        key: formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         child: ListView(
           children: [
@@ -81,12 +81,12 @@ class _UserFormState extends State<UserForm> {
                   // hintText: 'Enter Your Full Name',
                   border: OutlineInputBorder()),
               controller: _nameController,
-                          validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
+              validator: (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
             ),
             const SizedBox(
               height: 15,
@@ -98,12 +98,12 @@ class _UserFormState extends State<UserForm> {
                   // hintText: 'Enter Your Email',
                   border: OutlineInputBorder()),
               controller: _emailController,
-                          validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
+              validator: (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
             ),
             const SizedBox(
               height: 15,
@@ -126,7 +126,7 @@ class _UserFormState extends State<UserForm> {
                   )),
               controller: _passwordController,
               validator: (pass) {
-                if (pass != null && pass.length < 7) {
+                if (pass == null || pass.length < 7) {
                   return "Your minimum password should be 7";
                 } else {
                   return null;
@@ -144,12 +144,12 @@ class _UserFormState extends State<UserForm> {
                   // hintText: 'Enter Your Age',
                   border: OutlineInputBorder()),
               controller: _ageController,
-                          validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
+              validator: (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
             ),
             const SizedBox(
               height: 15,
@@ -163,7 +163,7 @@ class _UserFormState extends State<UserForm> {
                   border: OutlineInputBorder()),
               controller: _phoneController,
               validator: (value) {
-                if (value != null && value.length < 11) {
+                if (value == null || value.length < 11) {
                   return "Enter your valid phone number";
                 } else {
                   return null;
