@@ -37,6 +37,8 @@ class _UserFormState extends State<UserForm> {
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  // Password
+  bool _hidePassword = true;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -65,8 +67,17 @@ class _UserFormState extends State<UserForm> {
           // Password
           TextField(
             keyboardType: TextInputType.visiblePassword,
-            decoration: const InputDecoration(
-                hintText: 'Enter Your Password', border: OutlineInputBorder()),
+            obscureText: _hidePassword,
+            decoration: InputDecoration(
+                hintText: 'Enter Your Password',
+                border: OutlineInputBorder(),
+                suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _hidePassword = !_hidePassword;
+                      });
+                    },
+                    icon: const Icon(Icons.visibility))),
             controller: _passwordController,
           ),
           const SizedBox(
