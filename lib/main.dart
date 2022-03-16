@@ -44,6 +44,7 @@ class _UserFormState extends State<UserForm> {
       child: Column(
         children: [
           TextField(
+            keyboardType: TextInputType.name,
             decoration: const InputDecoration(
                 hintText: 'Enter Your Full Name', border: OutlineInputBorder()),
             controller: _nameController,
@@ -53,6 +54,7 @@ class _UserFormState extends State<UserForm> {
           ),
           // Email
           TextField(
+            keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
                 hintText: 'Enter Your Email', border: OutlineInputBorder()),
             controller: _emailController,
@@ -62,6 +64,7 @@ class _UserFormState extends State<UserForm> {
           ),
           // Password
           TextField(
+            keyboardType: TextInputType.visiblePassword,
             decoration: const InputDecoration(
                 hintText: 'Enter Your Password', border: OutlineInputBorder()),
             controller: _passwordController,
@@ -71,6 +74,7 @@ class _UserFormState extends State<UserForm> {
           ),
           // Age
           TextField(
+            keyboardType: TextInputType.number,
             decoration: const InputDecoration(
                 hintText: 'Enter Your Age', border: OutlineInputBorder()),
             controller: _ageController,
@@ -78,19 +82,12 @@ class _UserFormState extends State<UserForm> {
           const SizedBox(
             height: 10,
           ),
-          // Address
-          TextField(
-            decoration: const InputDecoration(
-                hintText: 'Enter Your Address', border: OutlineInputBorder()),
-            controller: _addressController,
-          ),
-                    const SizedBox(
-            height: 10,
-          ),
           // Phone Number
-                    TextField(
+          TextField(
+            keyboardType: TextInputType.phone,
             decoration: const InputDecoration(
-                hintText: 'Enter Your Phone Number', border: OutlineInputBorder()),
+                hintText: 'Enter Your Phone Number',
+                border: OutlineInputBorder()),
             controller: _phoneController,
           ),
           //
