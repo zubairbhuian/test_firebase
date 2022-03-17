@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(const MyApp());
 final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -17,14 +19,12 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
         ),
         body: const UserForm(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            if (formKey.currentState!.validate()) {
-              // Process data.
-            }
-          },
-          child: const Icon(Icons.send),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+
+        //   },
+        //   child: const Icon(Icons.send),
+        // ),
       ),
     );
   }
@@ -53,6 +53,25 @@ class _UserFormState extends State<UserForm> {
     _ageController.dispose();
     _phoneController.dispose();
     super.dispose();
+  }
+
+  // database
+  Future pushUserData() async {
+    CollectionReference dockUser =
+        FirebaseFirestore.instance.collection("users");
+    return dockUser.doc().set({
+      "name": _nameController.text,
+      "email": _emailController.text,
+      "pass": _passwordController.text,
+      "phone": _phoneController.text,
+    });
+    // final josonData = {
+    //   "name": _nameController.text,
+    //   "email": _emailController.text,
+    //   "pass": _passwordController.text,
+    //   "phone": _phoneController.text,
+    // };
+    // await dockUser.set(josonData);
   }
 
   // Password
@@ -107,6 +126,7 @@ class _UserFormState extends State<UserForm> {
             ),
             // Password
             TextFormField(
+              maxLength: 10,
               keyboardType: TextInputType.visiblePassword,
               obscureText: _hidePassword,
               decoration: InputDecoration(
@@ -122,8 +142,8 @@ class _UserFormState extends State<UserForm> {
                     }),
                   )),
               controller: _passwordController,
-              validator: (pass) {
-                if (pass == null || pass.length < 7) {
+              validator: (value) {
+                if (value!.isEmpty || value.length < 7) {
                   return "Your minimum password should be 7";
                 } else {
                   return null;
@@ -160,13 +180,24 @@ class _UserFormState extends State<UserForm> {
                   border: OutlineInputBorder()),
               controller: _phoneController,
               validator: (value) {
-                if (value == null || value.length < 11) {
+                // usa numbser r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]+$'
+                if (value!.isEmpty ||
+                    !RegExp(r'^(?:\+?88|0088)?01[15-9]\d{8}$')
+                        .hasMatch(value)) {
                   return "Enter your valid phone number";
                 } else {
                   return null;
                 }
               },
             ),
+            ElevatedButton(
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    // Process data.
+                  }
+                  pushUserData();
+                },
+                child: const Text("send"))
             //
           ],
         ),
