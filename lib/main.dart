@@ -87,6 +87,7 @@ class _UserFormState extends State<UserForm> {
             ),
             // Email
             TextFormField(
+              keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
                   labelText: 'Enter Your Email',
                   // hintText: 'Enter Your Email',
