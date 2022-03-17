@@ -10,9 +10,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.indigo),
-      home: SafeArea(
-          child: Scaffold(
+      theme: ThemeData(primarySwatch: Colors.purple),
+      home: Scaffold(
         appBar: AppBar(
           title: const Text("User Information"),
           centerTitle: true,
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
           },
           child: const Icon(Icons.send),
         ),
-      )),
+      ),
     );
   }
 }
@@ -59,12 +58,6 @@ class _UserFormState extends State<UserForm> {
   // Password
   bool _hidePassword = true;
 
-  // Data Function
-  var userData = {
-    'name': 12,
-    'email': "zu@gmail.com",
-  };
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -82,7 +75,8 @@ class _UserFormState extends State<UserForm> {
                   border: OutlineInputBorder()),
               controller: _nameController,
               validator: (String? value) {
-                if (value == null || value.isEmpty) {
+                if (value!.isEmpty ||
+                    !RegExp(r'^[a-z A-Z]+$').hasMatch(value)) {
                   return 'Please enter some text';
                 }
                 return null;
@@ -99,7 +93,9 @@ class _UserFormState extends State<UserForm> {
                   border: OutlineInputBorder()),
               controller: _emailController,
               validator: (String? value) {
-                if (value == null || value.isEmpty) {
+                if (value!.isEmpty ||
+                    !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
+                        .hasMatch(value)) {
                   return 'Please enter some text';
                 }
                 return null;
