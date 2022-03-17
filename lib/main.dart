@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() => runApp(const MyApp());
 final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -64,7 +65,7 @@ class _UserFormState extends State<UserForm> {
       "email": _emailController.text,
       "pass": _passwordController.text,
       "phone": _phoneController.text,
-    });
+    }).then((value) => Fluttertoast.showToast(msg: "Ensurt Data").catchError((err)=>print(err)));
     // final josonData = {
     //   "name": _nameController.text,
     //   "email": _emailController.text,
