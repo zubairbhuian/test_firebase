@@ -35,7 +35,7 @@ class _UserFormState extends State<UserForm> {
   Future pushUserData() async {
     CollectionReference dockUser =
         FirebaseFirestore.instance.collection("usersname");
-    return dockUser.doc("Tabassum2").set({
+    return dockUser.doc("Tabassum3").set({
       "name": _nameController.text,
       "email": _emailController.text,
       "pass": _passwordController.text,
