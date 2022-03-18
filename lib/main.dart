@@ -1,9 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-void main() => runApp(const MyApp());
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
+}
+
 final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 class MyApp extends StatelessWidget {
@@ -59,13 +64,17 @@ class _UserFormState extends State<UserForm> {
   // database
   Future pushUserData() async {
     CollectionReference dockUser =
-        FirebaseFirestore.instance.collection("users");
-    return dockUser.doc().set({
+        FirebaseFirestore.instance.collection("usersname");
+    return dockUser.doc("Tabassum2").set({
       "name": _nameController.text,
       "email": _emailController.text,
       "pass": _passwordController.text,
       "phone": _phoneController.text,
-    }).then((value) => Fluttertoast.showToast(msg: "Ensurt Data").catchError((err)=>print(err)));
+    }).then((value) => Fluttertoast.showToast(
+            msg: "Ensurt Data",
+            backgroundColor: Colors.purple,
+            textColor: Colors.white)
+        .catchError((err) => print(err)));
     // final josonData = {
     //   "name": _nameController.text,
     //   "email": _emailController.text,
@@ -194,9 +203,8 @@ class _UserFormState extends State<UserForm> {
             ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    // Process data.
+                    pushUserData();
                   }
-                  pushUserData();
                 },
                 child: const Text("send"))
             //
