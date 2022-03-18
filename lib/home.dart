@@ -9,6 +9,7 @@ class HomePage extends StatelessWidget {
       backgroundColor: Colors.green,
       body: Center(
         child: Container(
+          padding:const EdgeInsets.all(1),
             child: const Icon(
           Icons.mark_as_unread,
           color: Colors.white,
