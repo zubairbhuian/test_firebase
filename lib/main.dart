@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:test_firebase/user.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,34 +17,28 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.purple),
-      home: GetUserName( "documentId"),
+      home: const GetUserName(),
     );
   }
 }
 
-class GetUserName extends StatelessWidget {
-  // const GetUserName({Key? key}) : super(key: key);
-  final String documentId;
-  GetUserName(this.documentId);
+class GetUserName extends StatefulWidget {
+  const GetUserName({Key? key}) : super(key: key);
 
   @override
+  State<GetUserName> createState() => _GetUserNameState();
+}
+
+class _GetUserNameState extends State<GetUserName> {
+  @override
   Widget build(BuildContext context) {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-    return FutureBuilder<DocumentSnapshot>(future: users.doc(documentId).get(),builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
-           if (snapshot.hasError) {
-          return Text("Something went wrong");
-        }
+    return Scaffold(
+      appBar: AppBar(title:const Text('Hello there')),
+      body: StreamBuilder<List<User>>(stream:readUsers() , builder: (context,e){
 
-        if (snapshot.hasData && !snapshot.data!.exists) {
-          return Text("Document does not exist");
-        }
-
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-          return Text("Full Name: ${data['full_name']} ${data['last_name']}");
-        }
-
-        return Text("loading");
-    },);
+      }),
+    );
+    Stream<List<User>> readUsers() =>
+        FirebaseFirestore.instance.collection('usersname').snapshots().map((event) => event.docs.map((e) =>User.fromJson(e.data())).toList());
   }
 }
