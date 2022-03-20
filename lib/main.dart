@@ -33,12 +33,20 @@ class _GetUserNameState extends State<GetUserName> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:const Text('Hello there')),
-      body: StreamBuilder<List<User>>(stream:readUsers() , builder: (context,e){
-
-      }),
+      appBar: AppBar(title: const Text('Hello there')),
+      body: StreamBuilder<List<User>>(
+          stream: readUsers(),
+          builder: (context, e) {
+            if (e.hasError) {
+              final User = e.data!;
+            }else(){
+              
+            }
+          }),
     );
+    return ListView();
     Stream<List<User>> readUsers() =>
-        FirebaseFirestore.instance.collection('usersname').snapshots().map((event) => event.docs.map((e) =>User.fromJson(e.data())).toList());
+        FirebaseFirestore.instance.collection('usersname').snapshots().map(
+            (event) => event.docs.map((e) => User.fromJson(e.data())).toList());
   }
 }
